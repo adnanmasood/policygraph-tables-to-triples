@@ -1,0 +1,4 @@
+customer_id,legal_name,email,state,customer_type
+C001,Acme Manufacturing Inc,risk.manager@acme.example,NY,COMMERCIAL
+C002,Northstar Logistics LLC,ops@northstar.example,NJ,COMMERCIAL
+C003,Jane Rivera,jane.rivera@example,PA,PERSONAL

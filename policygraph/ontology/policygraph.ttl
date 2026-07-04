@@ -1,0 +1,255 @@
+@prefix code: <https://example.org/policygraph/code/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix ex: <https://example.org/policygraph/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://example.org/policygraph/code/claim-status/CLOSED> a skos:Concept ;
+    skos:inScheme code:claim-status ;
+    skos:notation "CLOSED" ;
+    skos:prefLabel "Closed" .
+
+<https://example.org/policygraph/code/claim-status/OPEN> a skos:Concept ;
+    skos:inScheme code:claim-status ;
+    skos:notation "OPEN" ;
+    skos:prefLabel "Open" .
+
+<https://example.org/policygraph/code/coverage-type/AUTO_LIABILITY> a skos:Concept ;
+    skos:inScheme code:coverage-type ;
+    skos:notation "AUTO_LIABILITY" ;
+    skos:prefLabel "Auto liability" .
+
+<https://example.org/policygraph/code/coverage-type/GENERAL_LIABILITY> a skos:Concept ;
+    skos:inScheme code:coverage-type ;
+    skos:notation "GENERAL_LIABILITY" ;
+    skos:prefLabel "General liability" .
+
+<https://example.org/policygraph/code/coverage-type/PERSONAL_AUTO> a skos:Concept ;
+    skos:inScheme code:coverage-type ;
+    skos:notation "PERSONAL_AUTO" ;
+    skos:prefLabel "Personal auto" .
+
+<https://example.org/policygraph/code/coverage-type/PHYSICAL_DAMAGE> a skos:Concept ;
+    skos:inScheme code:coverage-type ;
+    skos:notation "PHYSICAL_DAMAGE" ;
+    skos:prefLabel "Physical damage" .
+
+<https://example.org/policygraph/code/policy-status/ACTIVE> a skos:Concept ;
+    skos:inScheme code:policy-status ;
+    skos:notation "ACTIVE" ;
+    skos:prefLabel "Active" .
+
+<https://example.org/policygraph/code/policy-status/CANCELLED> a skos:Concept ;
+    skos:inScheme code:policy-status ;
+    skos:notation "CANCELLED" ;
+    skos:prefLabel "Cancelled" .
+
+<https://example.org/policygraph/code/policy-status/EXPIRED> a skos:Concept ;
+    skos:inScheme code:policy-status ;
+    skos:notation "EXPIRED" ;
+    skos:prefLabel "Expired" .
+
+<https://example.org/policygraph/ontology> a owl:Ontology ;
+    dcterms:description "A representative ontology for transforming insurance policy, coverage, customer, and claim CSV files into an RDF knowledge graph." ;
+    dcterms:title "PolicyGraph Ontology" .
+
+ex:claimCurrency a owl:DatatypeProperty ;
+    rdfs:label "claim currency" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:string .
+
+ex:claimIdentifier a owl:DatatypeProperty ;
+    rdfs:label "claim identifier" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:string .
+
+ex:claimInvolvesCoverageType a owl:ObjectProperty ;
+    rdfs:label "claim involves coverage type" ;
+    rdfs:comment "Relates a Claim to a CoverageType." ;
+    rdfs:domain ex:Claim ;
+    rdfs:range ex:CoverageType .
+
+ex:claimNumber a owl:DatatypeProperty ;
+    rdfs:label "claim number" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:string .
+
+ex:coverageCurrency a owl:DatatypeProperty ;
+    rdfs:label "coverage currency" ;
+    rdfs:domain ex:Coverage ;
+    rdfs:range xsd:string .
+
+ex:coverageIdentifier a owl:DatatypeProperty ;
+    rdfs:label "coverage identifier" ;
+    rdfs:domain ex:Coverage ;
+    rdfs:range xsd:string .
+
+ex:customerIdentifier a owl:DatatypeProperty ;
+    rdfs:label "customer identifier" ;
+    rdfs:domain ex:Customer ;
+    rdfs:range xsd:string .
+
+ex:deductibleAmount a owl:DatatypeProperty ;
+    rdfs:label "deductible amount" ;
+    rdfs:domain ex:Coverage ;
+    rdfs:range xsd:decimal .
+
+ex:emailAddress a owl:DatatypeProperty ;
+    rdfs:label "email address" ;
+    rdfs:domain ex:Customer ;
+    rdfs:range xsd:string .
+
+ex:hasClaimStatus a owl:ObjectProperty ;
+    rdfs:label "has claim status" ;
+    rdfs:comment "Relates a Claim to a ClaimStatus." ;
+    rdfs:domain ex:Claim ;
+    rdfs:range ex:ClaimStatus .
+
+ex:hasCoverageType a owl:ObjectProperty ;
+    rdfs:label "has coverage type" ;
+    rdfs:comment "Relates a Coverage to a CoverageType." ;
+    rdfs:domain ex:Coverage ;
+    rdfs:range ex:CoverageType .
+
+ex:hasPolicyStatus a owl:ObjectProperty ;
+    rdfs:label "has policy status" ;
+    rdfs:comment "Relates a Policy to a PolicyStatus." ;
+    rdfs:domain ex:Policy ;
+    rdfs:range ex:PolicyStatus .
+
+ex:incurredAmount a owl:DatatypeProperty ;
+    rdfs:label "incurred amount" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:decimal .
+
+ex:legalName a owl:DatatypeProperty ;
+    rdfs:label "legal name" ;
+    rdfs:domain ex:Customer ;
+    rdfs:range xsd:string .
+
+ex:limitAmount a owl:DatatypeProperty ;
+    rdfs:label "limit amount" ;
+    rdfs:domain ex:Coverage ;
+    rdfs:range xsd:decimal .
+
+ex:lossDate a owl:DatatypeProperty ;
+    rdfs:label "loss date" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:date .
+
+ex:paidAmount a owl:DatatypeProperty ;
+    rdfs:label "paid amount" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:decimal .
+
+ex:policyEndDate a owl:DatatypeProperty ;
+    rdfs:label "policy end date" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:date .
+
+ex:policyIdentifier a owl:DatatypeProperty ;
+    rdfs:label "policy identifier" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:string .
+
+ex:policyNumber a owl:DatatypeProperty ;
+    rdfs:label "policy number" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:string .
+
+ex:policyStartDate a owl:DatatypeProperty ;
+    rdfs:label "policy start date" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:date .
+
+ex:premiumAmount a owl:DatatypeProperty ;
+    rdfs:label "premium amount" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:decimal .
+
+ex:premiumCurrency a owl:DatatypeProperty ;
+    rdfs:label "premium currency" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:string .
+
+ex:productCode a owl:DatatypeProperty ;
+    rdfs:label "product code" ;
+    rdfs:domain ex:Policy ;
+    rdfs:range xsd:string .
+
+ex:reportedDate a owl:DatatypeProperty ;
+    rdfs:label "reported date" ;
+    rdfs:domain ex:Claim ;
+    rdfs:range xsd:date .
+
+ex:stateCode a owl:DatatypeProperty ;
+    rdfs:label "state code" ;
+    rdfs:domain ex:Customer ;
+    rdfs:range xsd:string .
+
+ex:ClaimStatus a owl:Class ;
+    rdfs:label "Claim status" ;
+    rdfs:comment "A controlled claim handling status." .
+
+ex:PolicyStatus a owl:Class ;
+    rdfs:label "Policy status" ;
+    rdfs:comment "A controlled policy lifecycle status." .
+
+ex:claimAgainstPolicy a owl:ObjectProperty ;
+    rdfs:label "claim against policy" ;
+    rdfs:comment "Relates a Claim to a Policy." ;
+    rdfs:domain ex:Claim ;
+    rdfs:range ex:Policy .
+
+ex:hasCoverage a owl:ObjectProperty ;
+    rdfs:label "has coverage" ;
+    rdfs:comment "Relates a Policy to a Coverage." ;
+    rdfs:domain ex:Policy ;
+    rdfs:range ex:Coverage .
+
+ex:hasPolicyholder a owl:ObjectProperty ;
+    rdfs:label "has policyholder" ;
+    rdfs:comment "Relates a Policy to a Customer." ;
+    rdfs:domain ex:Policy ;
+    rdfs:range ex:Customer .
+
+code:claim-status a skos:ConceptScheme ;
+    skos:prefLabel "Claim status" .
+
+ex:CoverageType a owl:Class ;
+    rdfs:label "Coverage type" ;
+    rdfs:comment "A controlled type of policy coverage." .
+
+code:policy-status a skos:ConceptScheme ;
+    skos:prefLabel "Policy status" .
+
+code:coverage-type a skos:ConceptScheme ;
+    skos:prefLabel "Coverage type" .
+
+ex:Customer a owl:Class ;
+    rdfs:label "Customer" ;
+    rdfs:comment "A person or organization that holds policies." .
+
+ex:Coverage a owl:Class ;
+    rdfs:label "Coverage" ;
+    rdfs:comment "A coverage component included on a policy." .
+
+ex:Claim a owl:Class ;
+    rdfs:label "Claim" ;
+    rdfs:comment "A reported loss against an insurance policy." ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ex:claimAgainstPolicy ;
+            owl:someValuesFrom ex:Policy ] .
+
+ex:Policy a owl:Class ;
+    rdfs:label "Policy" ;
+    rdfs:comment "An insurance contract issued to a customer." ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ex:hasCoverage ;
+            owl:someValuesFrom ex:Coverage ],
+        [ a owl:Restriction ;
+            owl:onProperty ex:hasPolicyholder ;
+            owl:someValuesFrom ex:Customer ] .
+

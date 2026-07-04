@@ -1,0 +1,14 @@
+services:
+  fuseki:
+    image: stain/jena-fuseki:latest
+    container_name: policygraph-fuseki
+    ports:
+      - "3030:3030"
+    environment:
+      ADMIN_PASSWORD: "policygraph-local"
+      FUSEKI_DATASET_1: "policygraph"
+    volumes:
+      - fuseki-data:/fuseki
+
+volumes:
+  fuseki-data:

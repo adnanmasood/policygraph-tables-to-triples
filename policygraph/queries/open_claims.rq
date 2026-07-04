@@ -1,0 +1,16 @@
+PREFIX ex: <https://example.org/policygraph/ontology#>
+PREFIX claimStatus: <https://example.org/policygraph/code/claim-status/>
+
+SELECT ?claim ?claimNumber ?policy ?policyNumber ?lossDate ?reportedDate ?incurredAmount
+WHERE {
+    ?claim a ex:Claim ;
+           ex:claimNumber ?claimNumber ;
+           ex:claimAgainstPolicy ?policy ;
+           ex:hasClaimStatus claimStatus:OPEN ;
+           ex:lossDate ?lossDate ;
+           ex:reportedDate ?reportedDate ;
+           ex:incurredAmount ?incurredAmount .
+
+    ?policy ex:policyNumber ?policyNumber .
+}
+ORDER BY DESC(?incurredAmount) ?claimNumber

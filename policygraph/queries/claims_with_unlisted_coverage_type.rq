@@ -1,0 +1,17 @@
+PREFIX ex: <https://example.org/policygraph/ontology#>
+
+SELECT ?claim ?claimNumber ?policy ?policyNumber ?claimCoverageType
+WHERE {
+    ?claim a ex:Claim ;
+           ex:claimNumber ?claimNumber ;
+           ex:claimAgainstPolicy ?policy ;
+           ex:claimInvolvesCoverageType ?claimCoverageType .
+
+    ?policy ex:policyNumber ?policyNumber .
+
+    FILTER NOT EXISTS {
+        ?policy ex:hasCoverage ?coverage .
+        ?coverage ex:hasCoverageType ?claimCoverageType .
+    }
+}
+ORDER BY ?claimNumber

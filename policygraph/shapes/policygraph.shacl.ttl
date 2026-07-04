@@ -1,0 +1,208 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex:   <https://example.org/policygraph/ontology#> .
+
+ex:CustomerShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Customer ;
+    sh:property [
+        sh:path ex:customerIdentifier ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Customer must have exactly one string customer identifier."
+    ] ;
+    sh:property [
+        sh:path ex:legalName ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Customer must have exactly one legal name."
+    ] ;
+    sh:property [
+        sh:path ex:stateCode ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Customer must have exactly one state code."
+    ] .
+
+ex:PolicyShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Policy ;
+    sh:property [
+        sh:path ex:policyIdentifier ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Policy must have exactly one string policy identifier."
+    ] ;
+    sh:property [
+        sh:path ex:policyNumber ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Policy must have exactly one policy number."
+    ] ;
+    sh:property [
+        sh:path ex:hasPolicyholder ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class ex:Customer ;
+        sh:message "Policy must point to an existing Customer resource."
+    ] ;
+    sh:property [
+        sh:path ex:hasPolicyStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Policy must have exactly one policy status IRI."
+    ] ;
+    sh:property [
+        sh:path ex:policyStartDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Policy must have exactly one xsd:date start date."
+    ] ;
+    sh:property [
+        sh:path ex:policyEndDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Policy must have exactly one xsd:date end date."
+    ] ;
+    sh:property [
+        sh:path ex:premiumAmount ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Policy must have exactly one xsd:decimal premium amount."
+    ] .
+
+ex:CoverageShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Coverage ;
+    sh:property [
+        sh:path ex:coverageIdentifier ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Coverage must have exactly one string coverage identifier."
+    ] ;
+    sh:property [
+        sh:path ex:hasCoverageType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Coverage must have exactly one coverage type IRI."
+    ] ;
+    sh:property [
+        sh:path ex:limitAmount ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Coverage must have exactly one xsd:decimal limit amount."
+    ] ;
+    sh:property [
+        sh:path ex:deductibleAmount ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Coverage must have exactly one xsd:decimal deductible amount."
+    ] .
+
+ex:ClaimShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Claim ;
+    sh:property [
+        sh:path ex:claimIdentifier ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Claim must have exactly one string claim identifier."
+    ] ;
+    sh:property [
+        sh:path ex:claimNumber ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Claim must have exactly one claim number."
+    ] ;
+    sh:property [
+        sh:path ex:claimAgainstPolicy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class ex:Policy ;
+        sh:message "Claim must point to an existing Policy resource."
+    ] ;
+    sh:property [
+        sh:path ex:hasClaimStatus ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Claim must have exactly one claim status IRI."
+    ] ;
+    sh:property [
+        sh:path ex:claimInvolvesCoverageType ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:message "Claim must have exactly one involved coverage type IRI."
+    ] ;
+    sh:property [
+        sh:path ex:lossDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Claim must have exactly one xsd:date loss date."
+    ] ;
+    sh:property [
+        sh:path ex:reportedDate ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "Claim must have exactly one xsd:date reported date."
+    ] ;
+    sh:property [
+        sh:path ex:incurredAmount ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:decimal ;
+        sh:message "Claim must have exactly one xsd:decimal incurred amount."
+    ] ;
+    sh:sparql [
+        sh:message "Claim loss date is outside the policy effective period." ;
+        sh:select """
+            PREFIX ex: <https://example.org/policygraph/ontology#>
+
+            SELECT $this ?policy ?lossDate ?startDate ?endDate
+            WHERE {
+                $this ex:claimAgainstPolicy ?policy ;
+                      ex:lossDate ?lossDate .
+
+                ?policy ex:policyStartDate ?startDate ;
+                        ex:policyEndDate ?endDate .
+
+                FILTER (?lossDate < ?startDate || ?lossDate > ?endDate)
+            }
+        """
+    ] ;
+    sh:sparql [
+        sh:message "Claim coverage type is not listed as a coverage type on the policy." ;
+        sh:select """
+            PREFIX ex: <https://example.org/policygraph/ontology#>
+
+            SELECT $this ?policy ?claimCoverageType
+            WHERE {
+                $this ex:claimAgainstPolicy ?policy ;
+                      ex:claimInvolvesCoverageType ?claimCoverageType .
+
+                FILTER NOT EXISTS {
+                    ?policy ex:hasCoverage ?coverage .
+                    ?coverage ex:hasCoverageType ?claimCoverageType .
+                }
+            }
+        """
+    ] .

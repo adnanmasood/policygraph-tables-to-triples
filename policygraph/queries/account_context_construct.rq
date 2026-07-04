@@ -1,0 +1,17 @@
+PREFIX ex: <https://example.org/policygraph/ontology#>
+
+CONSTRUCT {
+    ?customer ?customerPredicate ?customerObject .
+    ?policy ?policyPredicate ?policyObject .
+    ?coverage ?coveragePredicate ?coverageObject .
+    ?claim ?claimPredicate ?claimObject .
+}
+WHERE {
+    ?customer a ex:Customer ;
+              ex:customerIdentifier "C001" .
+
+    OPTIONAL { ?customer ?customerPredicate ?customerObject . }
+    OPTIONAL { ?policy ex:hasPolicyholder ?customer ; ?policyPredicate ?policyObject . }
+    OPTIONAL { ?policy ex:hasCoverage ?coverage . ?coverage ?coveragePredicate ?coverageObject . }
+    OPTIONAL { ?claim ex:claimAgainstPolicy ?policy ; ?claimPredicate ?claimObject . }
+}

@@ -1,0 +1,16 @@
+PREFIX ex: <https://example.org/policygraph/ontology#>
+
+SELECT ?claim ?claimNumber ?policy ?policyNumber ?lossDate ?startDate ?endDate
+WHERE {
+    ?claim a ex:Claim ;
+           ex:claimNumber ?claimNumber ;
+           ex:claimAgainstPolicy ?policy ;
+           ex:lossDate ?lossDate .
+
+    ?policy ex:policyNumber ?policyNumber ;
+            ex:policyStartDate ?startDate ;
+            ex:policyEndDate ?endDate .
+
+    FILTER (?lossDate < ?startDate || ?lossDate > ?endDate)
+}
+ORDER BY ?claimNumber

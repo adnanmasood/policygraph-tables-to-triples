@@ -1,0 +1,13 @@
+PREFIX ex: <https://example.org/policygraph/ontology#>
+
+SELECT ?policy ?policyNumber ?policyholder
+WHERE {
+    ?policy a ex:Policy ;
+            ex:policyNumber ?policyNumber ;
+            ex:hasPolicyholder ?policyholder .
+
+    FILTER NOT EXISTS {
+        ?policyholder a ex:Customer .
+    }
+}
+ORDER BY ?policyNumber

@@ -1,0 +1,98 @@
+@prefix rr:   <http://www.w3.org/ns/r2rml#> .
+@prefix rml:  <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql:   <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix ex:   <https://example.org/policygraph/ontology#> .
+@prefix id:   <https://example.org/policygraph/id/> .
+@prefix code: <https://example.org/policygraph/code/> .
+
+<#CustomersMap>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/raw/customers.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [
+        rr:template "https://example.org/policygraph/id/customer/{customer_id}" ;
+        rr:class ex:Customer
+    ] ;
+    rr:predicateObjectMap [ rr:predicate ex:customerIdentifier ; rr:objectMap [ rml:reference "customer_id" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:legalName ; rr:objectMap [ rml:reference "legal_name" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:emailAddress ; rr:objectMap [ rml:reference "email" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:stateCode ; rr:objectMap [ rml:reference "state" ; rr:datatype xsd:string ] ] .
+
+<#PoliciesMap>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/raw/policies.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [
+        rr:template "https://example.org/policygraph/id/policy/{policy_id}" ;
+        rr:class ex:Policy
+    ] ;
+    rr:predicateObjectMap [ rr:predicate ex:policyIdentifier ; rr:objectMap [ rml:reference "policy_id" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:policyNumber ; rr:objectMap [ rml:reference "policy_number" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:productCode ; rr:objectMap [ rml:reference "product_code" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:policyStartDate ; rr:objectMap [ rml:reference "start_date" ; rr:datatype xsd:date ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:policyEndDate ; rr:objectMap [ rml:reference "end_date" ; rr:datatype xsd:date ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:premiumAmount ; rr:objectMap [ rml:reference "premium_amount" ; rr:datatype xsd:decimal ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:premiumCurrency ; rr:objectMap [ rml:reference "premium_currency" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:hasPolicyholder ; rr:objectMap [ rr:template "https://example.org/policygraph/id/customer/{customer_id}" ; rr:termType rr:IRI ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:hasPolicyStatus ; rr:objectMap [ rr:template "https://example.org/policygraph/code/policy-status/{status}" ; rr:termType rr:IRI ] ] .
+
+<#CoveragesMap>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/raw/coverages.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [
+        rr:template "https://example.org/policygraph/id/coverage/{coverage_id}" ;
+        rr:class ex:Coverage
+    ] ;
+    rr:predicateObjectMap [ rr:predicate ex:coverageIdentifier ; rr:objectMap [ rml:reference "coverage_id" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:limitAmount ; rr:objectMap [ rml:reference "limit_amount" ; rr:datatype xsd:decimal ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:deductibleAmount ; rr:objectMap [ rml:reference "deductible_amount" ; rr:datatype xsd:decimal ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:coverageCurrency ; rr:objectMap [ rml:reference "currency" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:hasCoverageType ; rr:objectMap [ rr:template "https://example.org/policygraph/code/coverage-type/{coverage_type}" ; rr:termType rr:IRI ] ] .
+
+<#PolicyCoverageRelationshipMap>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/raw/coverages.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [
+        rr:template "https://example.org/policygraph/id/policy/{policy_id}"
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate ex:hasCoverage ;
+        rr:objectMap [
+            rr:template "https://example.org/policygraph/id/coverage/{coverage_id}" ;
+            rr:termType rr:IRI
+        ]
+    ] .
+
+<#ClaimsMap>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "data/raw/claims.csv" ;
+        rml:referenceFormulation ql:CSV
+    ] ;
+    rr:subjectMap [
+        rr:template "https://example.org/policygraph/id/claim/{claim_id}" ;
+        rr:class ex:Claim
+    ] ;
+    rr:predicateObjectMap [ rr:predicate ex:claimIdentifier ; rr:objectMap [ rml:reference "claim_id" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:claimNumber ; rr:objectMap [ rml:reference "claim_number" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:lossDate ; rr:objectMap [ rml:reference "loss_date" ; rr:datatype xsd:date ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:reportedDate ; rr:objectMap [ rml:reference "reported_date" ; rr:datatype xsd:date ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:incurredAmount ; rr:objectMap [ rml:reference "incurred_amount" ; rr:datatype xsd:decimal ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:paidAmount ; rr:objectMap [ rml:reference "paid_amount" ; rr:datatype xsd:decimal ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:claimCurrency ; rr:objectMap [ rml:reference "currency" ; rr:datatype xsd:string ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:claimAgainstPolicy ; rr:objectMap [ rr:template "https://example.org/policygraph/id/policy/{policy_id}" ; rr:termType rr:IRI ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:hasClaimStatus ; rr:objectMap [ rr:template "https://example.org/policygraph/code/claim-status/{claim_status}" ; rr:termType rr:IRI ] ] ;
+    rr:predicateObjectMap [ rr:predicate ex:claimInvolvesCoverageType ; rr:objectMap [ rr:template "https://example.org/policygraph/code/coverage-type/{coverage_type}" ; rr:termType rr:IRI ] ] .

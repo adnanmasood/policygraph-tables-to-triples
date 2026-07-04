@@ -1,0 +1,16 @@
+PREFIX ex: <https://example.org/policygraph/ontology#>
+PREFIX policyStatus: <https://example.org/policygraph/code/policy-status/>
+
+SELECT ?policy ?policyNumber ?customer ?legalName ?startDate ?endDate ?premiumAmount
+WHERE {
+    ?policy a ex:Policy ;
+            ex:policyNumber ?policyNumber ;
+            ex:hasPolicyholder ?customer ;
+            ex:hasPolicyStatus policyStatus:ACTIVE ;
+            ex:policyStartDate ?startDate ;
+            ex:policyEndDate ?endDate ;
+            ex:premiumAmount ?premiumAmount .
+
+    OPTIONAL { ?customer ex:legalName ?legalName . }
+}
+ORDER BY ?policyNumber

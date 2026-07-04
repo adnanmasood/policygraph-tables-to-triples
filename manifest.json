@@ -1,0 +1,25 @@
+{
+  "title": "PolicyGraph Codex Prompt Kit",
+  "version": "1.0",
+  "description": "Sequential Codex prompts to generate the PolicyGraph CSV-to-ontology-to-RDF application from Parts 1 and 2.",
+  "recommended_order": [
+    "prompts/00_master_application_spec.md",
+    "prompts/01_repo_bootstrap.md",
+    "prompts/02_sample_data_and_profiler.md",
+    "prompts/03_ontology_builder_and_contract_tests.md",
+    "prompts/04_rml_mapping_and_materialization.md",
+    "prompts/05_shacl_validation.md",
+    "prompts/06_sparql_query_catalog.md",
+    "prompts/07_semantic_service_and_cli.md",
+    "prompts/08_fastapi_api.md",
+    "prompts/09_docker_fuseki_local_dev.md",
+    "prompts/10_tests_ci_and_quality_gates.md",
+    "prompts/11_documentation_and_developer_guide.md",
+    "prompts/12_final_review_and_refactor.md"
+  ],
+  "optional_prompts": [
+    "prompts/13_single_pass_mvp_prompt.md",
+    "prompts/14_production_hardening_prompt.md",
+    "prompts/15_agent_tooling_extension_prompt.md"
+  ]
+}
